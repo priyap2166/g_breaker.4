@@ -5,6 +5,7 @@ import world
 import decorations
 import coins
 import obstacles
+import health
 
 
 # creating class for game state
@@ -23,6 +24,9 @@ class GameState:
         # creating instances
         self.player = player.Character(50, 400, 7.0, 0.15, 80, 67, 0, 9)
         self.world = world.my_world
+
+        # health bar instance
+        self.health = health.HealthBar(20, 60, self.player.health, self.player.max_health)
 
         self.score_value = 100
         self.score_font = pygame.font.SysFont('Roboto', 35)
@@ -89,9 +93,11 @@ class GameState:
         # check for collision with coin - remove coin once collected
         if pygame.sprite.spritecollide(self.player, coins.coin_group, True):
             self.score_value += 15
+
         # check for collision with obstacle
         if pygame.sprite.spritecollide(self.player, obstacles.obstacle_group, False) and not self.get_hit:
             self.get_hit = True
+            self.player.health -= 15
             if self.score_value >= 0:
                 self.score_value -= 15
             if self.score_value <= 0:
@@ -109,6 +115,9 @@ class GameState:
         score = self.score_font.render("SCORE : " + str(self.score_value), True, (198, 90, 0))
         score_text_pos = self.score_x, self.score_y
         self.window_surface.blit(score, score_text_pos)
+
+        # display health bar
+        self.health.draw(self.player.health, self.window_surface)
 
         # update sprite groups
         decorations.decoration_group.update()
