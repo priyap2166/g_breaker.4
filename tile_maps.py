@@ -140,9 +140,9 @@ while running:
         # load the level data
         with open(f'level{level}_data.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',',)
-        for x, row in enumerate(reader):
-            for y, tile in enumerate(row):
-                world_data[x][y] = int(tile)
+            for x, row in enumerate(reader):
+                for y, tile in enumerate(row):
+                    world_data[x][y] = int(tile)
 
     # draw tile panel and tiles
     pygame.draw.rect(screen, BLUE, (SCREEN_WIDTH, 0, SIDE_MARGIN, SCREEN_HEIGHT))

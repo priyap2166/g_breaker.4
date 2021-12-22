@@ -20,9 +20,9 @@ class Character(pygame.sprite.Sprite):  # class to create a Character
         sprite_sheet = pygame.image.load('img/player/sprite sheet one.png').convert_alpha()
         self.frames = []
         for frame_number in range(0, num_frames):
-            self.frames.append(sprite_sheet.subsurface(pygame.Rect(frame_number * frame_width,
+            self.frames.append(sprite_sheet.subsurface(pygame.Rect((frame_number * frame_width)+12,
                                                                    animation_row * frame_height,
-                                                                   frame_width, frame_height)))
+                                                                   47, frame_height)))
 
         self.current_frame_index = 0
         self.display_frame = self.frames[self.current_frame_index]
@@ -32,7 +32,7 @@ class Character(pygame.sprite.Sprite):  # class to create a Character
         self.rect = self.display_frame.get_rect()
         # positions the rectangle with x and y coordinates
         self.rect.center = (x, y)
-        self.width = self.display_frame.get_width() - 35
+        self.width = self.display_frame.get_width()
         self.height = self.display_frame.get_height()
 
         # jumping variables
@@ -41,10 +41,13 @@ class Character(pygame.sprite.Sprite):  # class to create a Character
         self.in_air = True
         self.GRAVITY = 0.75
 
-        # collision variables
-
+        # movement triggers
         self.move_left = False
         self.move_right = False
+
+        # health variables
+        self.health = 100
+        self.max_health = self.health
 
         self.world = world.my_world
 
@@ -96,13 +99,16 @@ class Character(pygame.sprite.Sprite):  # class to create a Character
         if self.rect.left + delta_x < 0 or self.rect.right + delta_x > settings_state.SCREEN_WIDTH:
             delta_x = 0
 
+        # check if fallen off platform
+        if self.rect.bottom > settings_state.SCREEN_HEIGHT:
+            self.health = 0
+
         # updating position of 'rect' i.e. character
         self.rect.x += delta_x
         self.rect.y += delta_y
 
         # update scroll based on player position
-        if (self.rect.right > settings_state.SCREEN_WIDTH - SCROLL_THRESH and bg_scroll < (
-                world.my_world.level_length * world.TILE_SIZE) - settings_state.SCREEN_WIDTH) \
+        if (self.rect.right > (settings_state.SCREEN_WIDTH - SCROLL_THRESH) and bg_scroll < 4000) \
                 or (self.rect.left < SCROLL_THRESH and bg_scroll > abs(delta_x)):
             self.rect.x -= delta_x
             screen_scrolling = -delta_x
