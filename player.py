@@ -50,6 +50,7 @@ class Character(pygame.sprite.Sprite):  # class to create a Character
         self.max_health = self.health
 
         self.world = world.my_world
+        self.level_complete = False
 
     def move(self):
         # variables to record change in movement and reset them where necessary (collision)
@@ -106,6 +107,9 @@ class Character(pygame.sprite.Sprite):  # class to create a Character
         # updating position of 'rect' i.e. character
         self.rect.x += delta_x
         self.rect.y += delta_y
+
+        if pygame.sprite.spritecollide(self, world.exit_group, False):
+            self.level_complete = True
 
         # update scroll based on player position
         if (self.rect.right > (settings_state.SCREEN_WIDTH - SCROLL_THRESH) and bg_scroll < 4000) \

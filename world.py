@@ -33,7 +33,6 @@ class World:
 
     # processing all data in csv file
     def process_data(self, data):
-        self.level_length = len(data[0])  # defining length level
         # go through each number in level data csv file
         for y, row in enumerate(data):
             for x, tile in enumerate(row):
@@ -81,6 +80,23 @@ class Exit(pygame.sprite.Sprite):
 
 # sprite group creation
 exit_group = pygame.sprite.Group()
+
+
+# function to reset level
+def reset_level():
+    decorations.decoration_group.empty()
+    coins.coin_group.empty()
+    exit_group.empty()
+
+    # create empty tile list
+    data = []
+    for row in range(ROWS):
+        r = [-1] * COLS
+        data.append(r)
+
+    return data
+
+
 # create empty tile list
 world_data = []
 for row in range(ROWS):

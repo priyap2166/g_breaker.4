@@ -6,6 +6,7 @@ import decorations
 import coins
 import obstacles
 import health
+import csv
 
 
 # creating class for game state
@@ -110,6 +111,25 @@ class GameState:
         coins.coin_group.draw(self.window_surface)
         obstacles.obstacle_group.draw(self.window_surface)
         world.exit_group.draw(self.window_surface)
+
+        if self.player.alive:
+            if self.player.level_complete:
+                world.level += 1
+                player.bg_scroll = 0
+                world.world_data = world.reset_level()
+                self.player.level_complete = False
+                if world.level <= world.MAX_LEVELS:
+                    # load in level data and create world using csv file
+                    with open(f'level{world.level}_data.csv', newline='') as csvfile:
+                        reader = csv.reader(csvfile, delimiter=',')
+                        for x, row in enumerate(reader):
+                            for y, tile in enumerate(row):
+                                # assigning each index in 2D list to the tile number in csv file
+                                world.world_data[x][y] = int(tile)
+
+                    # creating instance of class and calling method within
+                    self.world = world.World()
+                    self.world.process_data(world.world_data)
 
         # displaying score
         score = self.score_font.render("SCORE : " + str(self.score_value), True, (198, 90, 0))
