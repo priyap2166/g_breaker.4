@@ -87,7 +87,7 @@ class GameState:
             self.end_game = False
             world.level = 0
             player.bg_scroll = 0
-            self.player.set_position(50, 400)  # reset the position of the player but thats relative to screen gotta reset the map
+            self.player.set_position(50, 400)  # reset the position of the player
             self.player.health = 100
             self.score_value = 0
             self.player.level_complete = False
