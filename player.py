@@ -51,6 +51,11 @@ class Character(pygame.sprite.Sprite):  # class to create a Character
 
         self.level_complete = False
 
+    def set_position(self,x ,y):
+         # set the position of the sprite
+        self.rect.x = x
+        self.rect.y = y
+
     def move(self):
         # variables to record change in movement and reset them where necessary (collision)
         delta_x = 0
