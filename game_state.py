@@ -1,6 +1,5 @@
 # importing pygame library and player file to integrate
 import pygame
-from pygame_gui.elements import UIButton
 import player
 import world
 import decorations
@@ -9,7 +8,7 @@ import obstacles
 import health
 import csv
 import buttons
-from pygame_gui import UIManager, UI_BUTTON_PRESSED
+from pygame_gui import UIManager
 
 
 # creating class for game state
