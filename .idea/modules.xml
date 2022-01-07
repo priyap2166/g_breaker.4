@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Adventure-master/.idea/Adventure-master.iml" filepath="$PROJECT_DIR$/../Adventure-master/.idea/Adventure-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Ground Breaker (NEA).iml" filepath="$PROJECT_DIR$/.idea/Ground Breaker (NEA).iml" />
+      <module fileurl="file://$PROJECT_DIR$/../mario_game-develop/.idea/mario_game-develop.iml" filepath="$PROJECT_DIR$/../mario_game-develop/.idea/mario_game-develop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../platforms_of_doom-master/.idea/platforms_of_doom-master.iml" filepath="$PROJECT_DIR$/../platforms_of_doom-master/.idea/platforms_of_doom-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../scrolling_shooter-master/.idea/scrolling_shooter-master.iml" filepath="$PROJECT_DIR$/../scrolling_shooter-master/.idea/scrolling_shooter-master.iml" />
+    </modules>
+  </component>
+</project>
