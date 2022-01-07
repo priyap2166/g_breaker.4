@@ -81,6 +81,19 @@ class GameState:
             self.end_game = False
             world.level = 0
             player.bg_scroll = 0
+            decorations.decoration_group.empty()
+            coins.coin_group.empty()
+            obstacles.obstacle_group.empty()
+            world.exit_group.empty()
+            with open(f'level{world.level}_data.csv', newline='') as csvfile:
+                reader = csv.reader(csvfile, delimiter=',')
+                for x, row in enumerate(reader):
+                    for y, tile in enumerate(row):
+                        # assigning each index in 2D list to the tile number in csv file
+                        world.world_data[x][y] = int(tile)
+            # creating instance of class and calling method within
+            world.my_world = world.World()
+            world.my_world.process_data(world.world_data)
             self.player.set_position(50, 400)  # reset the position of the player
             self.player.health = 100
             self.score_value = 0
