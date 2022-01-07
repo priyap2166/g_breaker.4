@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.9 (platformerPractice)" project-jdk-type="Python SDK" />
+=======
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.8 (Ground Breaker (NEA))" project-jdk-type="Python SDK" />
+>>>>>>> acf5b918c7118458b68e0b3692a762bfba4ea136
 </project>
