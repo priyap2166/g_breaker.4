@@ -87,6 +87,7 @@ def reset_level():
     decorations.decoration_group.empty()
     coins.coin_group.empty()
     exit_group.empty()
+    obstacles.obstacle_group.empty()
 
     # create empty tile list
     data = []

@@ -24,7 +24,6 @@ class GameState:
 
         # creating instances
         self.player = player.Character(50, 400, 7.0, 0.15, 80, 67, 0, 9)
-        self.world = world.my_world
 
         # health bar instance
         self.health = health.HealthBar(20, 60, self.player.health, self.player.max_health)
@@ -83,13 +82,28 @@ class GameState:
         player.screen_scroll = self.player.move()
 
         self.window_surface.blit(self.background_surf, (0, 0))
+
         # updating background image
         for x in range(4):
             # repeating background and parallax scrolling
             self.window_surface.blit(self.background_image, ((x * self.width) - player.bg_scroll * 0.75, 0))
+
         # drawing world
-        self.world.draw(self.window_surface)
+        world.my_world.draw(self.window_surface)
         player.bg_scroll -= player.screen_scroll
+
+        # draw method imported from player + animation
+        self.player.draw(self.window_surface)
+        self.player.update()
+        self.player.update_anim(time_delta)
+
+        # displaying score
+        score = self.score_font.render("SCORE : " + str(self.score_value), True, (198, 90, 0))
+        score_text_pos = self.score_x, self.score_y
+        self.window_surface.blit(score, score_text_pos)
+
+        # display health bar
+        self.health.draw(self.player.health, self.window_surface)
 
         # check for collision with coin - remove coin once collected
         if pygame.sprite.spritecollide(self.player, coins.coin_group, True):
@@ -112,6 +126,12 @@ class GameState:
         obstacles.obstacle_group.draw(self.window_surface)
         world.exit_group.draw(self.window_surface)
 
+        # update sprite groups
+        decorations.decoration_group.update()
+        coins.coin_group.update()
+        obstacles.obstacle_group.update()
+        world.exit_group.update()
+
         if self.player.alive:
             if self.player.level_complete:
                 world.level += 1
@@ -128,26 +148,7 @@ class GameState:
                                 world.world_data[x][y] = int(tile)
 
                     # creating instance of class and calling method within
-                    self.world = world.World()
-                    self.world.process_data(world.world_data)
-
-        # displaying score
-        score = self.score_font.render("SCORE : " + str(self.score_value), True, (198, 90, 0))
-        score_text_pos = self.score_x, self.score_y
-        self.window_surface.blit(score, score_text_pos)
-
-        # display health bar
-        self.health.draw(self.player.health, self.window_surface)
-
-        # update sprite groups
-        decorations.decoration_group.update()
-        coins.coin_group.update()
-        obstacles.obstacle_group.update()
-        world.exit_group.update()
-
-        # draw method imported from player + animation
-        self.player.draw(self.window_surface)
-        self.player.update()
-        self.player.update_anim(time_delta)
+                    world.my_world = world.World()
+                    world.my_world.process_data(world.world_data)
 
         pygame.display.flip()

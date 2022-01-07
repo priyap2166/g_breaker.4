@@ -49,7 +49,6 @@ class Character(pygame.sprite.Sprite):  # class to create a Character
         self.health = 100
         self.max_health = self.health
 
-        self.world = world.my_world
         self.level_complete = False
 
     def move(self):
@@ -81,7 +80,7 @@ class Character(pygame.sprite.Sprite):  # class to create a Character
         delta_y += self.vel_y
 
         # check for collision
-        for tile in self.world.obstacle_list:
+        for tile in world.my_world.obstacle_list:
             # check collision in x direction
             if tile[1].colliderect(self.rect.x + delta_x, self.rect.y, self.width, self.height):
                 delta_x = 0
@@ -108,6 +107,7 @@ class Character(pygame.sprite.Sprite):  # class to create a Character
         self.rect.x += delta_x
         self.rect.y += delta_y
 
+        # checking for collision with exit sign
         if pygame.sprite.spritecollide(self, world.exit_group, False):
             self.level_complete = True
 
