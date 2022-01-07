@@ -54,9 +54,11 @@ class GameState:
 
         # sounds
         self.coin_sfx = pygame.mixer.Sound('sounds/coin collect.wav')
-        self.coin_sfx.set_volume(0.05)
+        self.coin_sfx.set_volume(0.2)
         self.jump_sfx = pygame.mixer.Sound('sounds/jump.wav')
         self.jump_sfx.set_volume(0.05)
+        self.over_sfx = pygame.mixer.Sound('sounds/game over.wav')
+        self.over_sfx.set_volume(0.2)
 
     # function for what happens as soon as game state is called through the main menu
     def start(self):
@@ -72,7 +74,7 @@ class GameState:
     def stop(self):
         self.background_surf = None
 
-    # function for handling user events (back to main menu when user presses escape)
+    # function for handling user events
     def handle_events(self, event):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             self.transition_target = 'main_menu'
@@ -121,6 +123,7 @@ class GameState:
     def game_over(self):
         self.end_game = True
         self.game_over_img_pos_rect.center = (400, 250)
+        self.over_sfx.play()
 
     # update function for drawing elements onto screen
     def update(self, time_delta):

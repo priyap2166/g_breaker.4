@@ -51,7 +51,12 @@ class Character(pygame.sprite.Sprite):  # class to create a Character
         self.health = 100
         self.max_health = self.health
 
+        # level complete trigger
         self.level_complete = False
+
+        # sounds
+        self.level_sfx = pygame.mixer.Sound('sounds/level complete.wav')
+        self.level_sfx.set_volume(0.2)
 
     def set_position(self, x, y):
         # set the position of the sprite
@@ -117,6 +122,7 @@ class Character(pygame.sprite.Sprite):  # class to create a Character
         # checking for collision with exit sign
         if pygame.sprite.spritecollide(self, world.exit_group, False):
             self.level_complete = True
+            self.level_sfx.play()
 
         # update scroll based on player position
         if (self.rect.right > (settings_state.SCREEN_WIDTH - SCROLL_THRESH) and bg_scroll < 4000) \
