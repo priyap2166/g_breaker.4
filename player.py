@@ -28,8 +28,10 @@ class Character(pygame.sprite.Sprite):  # class to create a Character
         self.display_frame = self.frames[self.current_frame_index]
         self.frame_speed = frame_speed
         self.time_accumulator = 0.0
+
         # creates rectangle around sprite (useful for collision)
         self.rect = self.display_frame.get_rect()
+
         # positions the rectangle with x and y coordinates
         self.rect.center = (x, y)
         self.width = self.display_frame.get_width()
@@ -51,8 +53,8 @@ class Character(pygame.sprite.Sprite):  # class to create a Character
 
         self.level_complete = False
 
-    def set_position(self,x ,y):
-         # set the position of the sprite
+    def set_position(self, x, y):
+        # set the position of the sprite
         self.rect.x = x
         self.rect.y = y
 
