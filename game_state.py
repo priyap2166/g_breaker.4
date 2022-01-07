@@ -49,8 +49,8 @@ class GameState:
         self.end_game = False
 
         # game over variables
-        self.game_over_text = self.score_font.render('GAME OVER!', True, (198, 90, 0))
-        self.game_over_pos_rect = self.game_over_text.get_rect()
+        self.game_over_img = pygame.transform.scale(pygame.image.load('img/game over.png'), (300, 50))
+        self.game_over_img_pos_rect = self.game_over_img.get_rect()
 
         # sounds
         self.coin_sfx = pygame.mixer.Sound('sounds/coin collect.wav')
@@ -120,7 +120,7 @@ class GameState:
     # when health is 0
     def game_over(self):
         self.end_game = True
-        self.game_over_pos_rect.center = (400, 250)
+        self.game_over_img_pos_rect.center = (400, 250)
 
     # update function for drawing elements onto screen
     def update(self, time_delta):
@@ -206,8 +206,8 @@ class GameState:
         if self.end_game is True:
             self.window_surface.blit(pygame.transform.scale(pygame.image.load('img/bg.png').convert_alpha(),
                                                             (1200, 640)), (0, 0))
+            self.window_surface.blit(self.game_over_img, self.game_over_img_pos_rect)
             self.ui_manager.draw_ui(self.window_surface)
-            self.window_surface.blit(self.game_over_text, self.game_over_pos_rect)
             self.ui_manager.update(time_delta)
             # processing all user interface events
             for event in pygame.event.get():
