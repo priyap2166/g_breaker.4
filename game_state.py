@@ -49,7 +49,7 @@ class GameState:
         self.end_game = False
 
         # game over variables
-        self.game_over_img = pygame.transform.scale(pygame.image.load('img/game over.png'), (300, 50))
+        self.game_over_img = pygame.transform.scale(pygame.image.load('img/game over.png'), (350, 58))
         self.game_over_img_pos_rect = self.game_over_img.get_rect()
 
         # sounds
