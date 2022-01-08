@@ -132,19 +132,24 @@ class Character(pygame.sprite.Sprite):  # class to create a Character
 
         return screen_scrolling
 
+    # updating player movement with scrolling
     def update(self):
         self.rect.x += screen_scroll
 
+    # updating animation
     def update_anim(self, time_passed):
         self.time_accumulator += time_passed
 
+        # switching frame and resetting time for frame
         if self.time_accumulator > self.frame_speed:
             self.time_accumulator = 0.0
             self.current_frame_index += 1
 
+            # reset once reached end of frames
             if self.current_frame_index >= len(self.frames):
                 self.current_frame_index = 0
 
+            # setting current frame
             self.display_frame = self.frames[self.current_frame_index]
 
     # method for drawing any instance of the class
