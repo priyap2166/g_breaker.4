@@ -16,7 +16,7 @@ from pygame_gui import UI_BUTTON_PRESSED
 # creating class for game state
 class GameState:
     # initialising variables
-    def __init__(self, window_surface):
+    def __init__(self, window_surface, ui_manager):
         self.transition_target = None
         self.window_surface = window_surface
         self.background_surf = None
@@ -43,7 +43,7 @@ class GameState:
 
         # restart and end game variables
         self.ui_manager_restart = pygame_gui.UIManager((settings_state.SCREEN_WIDTH,
-                                                settings_state.SCREEN_HEIGHT), 'theme.json')
+                                                        settings_state.SCREEN_HEIGHT), 'theme.json')
         self.restart_button = None
         self.end_game = False
 
@@ -56,13 +56,12 @@ class GameState:
         self.pause = False
         self.pause_img = pygame.image.load('img/pause.png')
         self.pause_img_pos_rect = self.pause_img.get_rect()
-        self.ui_manager_pause = pygame_gui.UIManager((settings_state.SCREEN_WIDTH,
-                                                      settings_state.SCREEN_HEIGHT), 'theme.json')
+        self.ui_manager = ui_manager
 
         # resume variables
         self.resume_button = None
-        self.ui_manager_resume = pygame_gui.UIManager((settings_state.SCREEN_WIDTH,
-                                                       settings_state.SCREEN_HEIGHT), 'theme.json')
+        # self.ui_manager_resume = pygame_gui.UIManager((settings_state.SCREEN_WIDTH,
+        #                                                settings_state.SCREEN_HEIGHT), 'theme.json')
 
         # sounds
         self.coin_sfx = pygame.mixer.Sound('sounds/coin collect.wav')
@@ -80,17 +79,17 @@ class GameState:
         self.background_surf = pygame.Surface((800, 640))
 
         # positioning buttons and activating them
-        self.restart_button = UIButton(pygame.Rect((310, 300), (175, 50)),
-                                       'RESTART',
-                                       self.ui_manager_restart)
+        # self.restart_button = UIButton(pygame.Rect((310, 300), (175, 50)),
+        #                                'RESTART',
+        #                                self.ui_manager_restart)
 
         self.pause_button = UIButton(pygame.Rect((700, 20), (80, 35)),
                                      'PAUSE',
-                                     self.ui_manager_pause)
-
-        self.resume_button = UIButton(pygame.Rect((310, 300), (175, 50)),
-                                      'RESUME',
-                                      self.ui_manager_resume)
+                                     self.ui_manager)
+        self.pause_button.set_text('PAUSE')
+        # self.resume_button = UIButton(pygame.Rect((310, 300), (175, 50)),
+        #                               'RESUME',
+        #                               self.ui_manager_resume)
 
     # function for killing screen when state is no longer in use
     def stop(self):
@@ -141,12 +140,18 @@ class GameState:
                 self.score_value = 0
                 self.player.level_complete = False
 
-            if event.ui_element == self.pause_button:
+            if event.ui_element == self.pause_button and event.ui_element.text == "PAUSE":
                 self.pause = True
-            if event.ui_element == self.resume_button:
+                self.pause_button.set_dimensions((175, 50))
+                self.pause_button.set_position((310, 300))
+                self.pause_button.set_text('RESUME')
+            elif event.ui_element == self.pause_button and event.ui_element.text == "RESUME":
                 self.pause = False
                 self.score_x = 20
                 self.score_y = 20
+                self.pause_button.set_dimensions((100, 50))
+                self.pause_button.set_position((700, 20))
+                self.pause_button.set_text('PAUSE')
 
     # when health is 0
     def game_over(self):
@@ -228,10 +233,10 @@ class GameState:
             # display health bar
             self.health.draw(self.player.health, self.window_surface)
 
-            self.ui_manager_pause.draw_ui(self.window_surface)  # draw button
-            self.ui_manager_pause.update(time_delta)  # update ui button
-            for event in pygame.event.get():
-                self.ui_manager_pause.process_events(event)
+            self.ui_manager.draw_ui(self.window_surface)  # draw button
+            self.ui_manager.update(time_delta)  # update ui button
+            # for event in pygame.event.get():
+            #     self.ui_manager_pause.process_events(event)
 
             # update sprite groups
             decorations.decoration_group.update()
@@ -250,8 +255,8 @@ class GameState:
             self.window_surface.blit(pygame.transform.scale(pygame.image.load('img/bg.png').convert_alpha(),
                                                             (1200, 640)), (0, 0))
             self.window_surface.blit(self.pause_img, (240, 200))  # pause img display
-            self.ui_manager_resume.draw_ui(self.window_surface)  # draw resume button
-            self.ui_manager_resume.update(time_delta)  # update ui button
+            self.ui_manager.draw_ui(self.window_surface)  # draw resume button
+            self.ui_manager.update(time_delta)  # update ui button
 
             # redraw current score at position
             score = self.score_font.render(" CURRENT SCORE : " + str(self.score_value), True, (198, 90, 0))
@@ -260,8 +265,8 @@ class GameState:
             score_text_pos = self.score_x, self.score_y
             self.window_surface.blit(score, score_text_pos)
             # processing all user interface events
-            for event in pygame.event.get():
-                self.ui_manager_resume.process_events(event)
+            # for event in pygame.event.get():
+            #     self.ui_manager_resume.process_events(event)
 
         if self.end_game is True:
             # display bg image
@@ -278,5 +283,5 @@ class GameState:
             score_text_pos = self.score_x, self.score_y
             self.window_surface.blit(score, score_text_pos)
             # processing all user interface events
-            for event in pygame.event.get():
-                self.ui_manager_restart.process_events(event)
+            # for event in pygame.event.get():
+            #     self.ui_manager_restart.process_events(event)

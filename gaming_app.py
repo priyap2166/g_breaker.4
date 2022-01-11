@@ -25,7 +25,7 @@ class GameApp:
 
         self.states = {'main_menu': MainMenuState(self.window_surface, self.ui_manager),
                        'settings': SettingsState(self.window_surface, self.ui_manager),
-                       'game': GameState(self.window_surface), }
+                       'game': GameState(self.window_surface, self.ui_manager), }
 
         self.active_state = self.states['main_menu']  # to start app with the main menu
         self.active_state.start()
