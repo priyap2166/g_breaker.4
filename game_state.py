@@ -79,9 +79,6 @@ class GameState:
         self.background_surf = pygame.Surface((800, 640))
 
         # positioning buttons and activating them
-        # self.restart_button = UIButton(pygame.Rect((310, 300), (175, 50)),
-        #                                'RESTART',
-        #                                self.ui_manager_restart)
 
         self.pause_button = UIButton(pygame.Rect((700, 20), (80, 35)),
                                      'PAUSE',
@@ -118,7 +115,7 @@ class GameState:
 
         # draw restart button and go back to first level
         if event.type == pygame.USEREVENT and event.user_type == UI_BUTTON_PRESSED:
-            if event.ui_element == self.restart_button:
+            if event.ui_element == self.pause_button and event.ui_element.text == "RESTART":
                 self.end_game = False
                 world.level = 0
                 player.bg_scroll = 0
@@ -139,6 +136,7 @@ class GameState:
                 self.player.health = 100
                 self.score_value = 0
                 self.player.level_complete = False
+                self.pause_button.set_text("RESUME")
 
             if event.ui_element == self.pause_button and event.ui_element.text == "PAUSE":
                 self.pause = True
@@ -194,6 +192,7 @@ class GameState:
                     self.score_value -= 15
                 elif self.score_value <= 0:
                     self.score_value = 0
+
             # when not in collision with obstacle
             if not pygame.sprite.spritecollide(self.player, obstacles.obstacle_group, False):
                 self.get_hit = False
@@ -272,9 +271,12 @@ class GameState:
             # display bg image
             self.window_surface.blit(pygame.transform.scale(pygame.image.load('img/bg.png').convert_alpha(),
                                                             (1200, 640)), (0, 0))
+            self.pause_button.set_position((310, 300))
+            self.pause_button.set_dimensions((100, 50))
+            self.pause_button.set_text('RESTART')
             self.window_surface.blit(self.game_over_img, self.game_over_img_pos_rect)  # position
-            self.ui_manager_restart.draw_ui(self.window_surface)  # draw button
-            self.ui_manager_restart.update(time_delta)  # update ui button
+            self.ui_manager.draw_ui(self.window_surface)  # draw button
+            self.ui_manager.update(time_delta)  # update ui button
 
             # redraw final score at position
             score = self.score_font.render(" FINAL SCORE : " + str(self.score_value), True, (198, 90, 0))
